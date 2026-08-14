@@ -80,26 +80,18 @@ For example:
 @app.get("/items/{item_id}")
 async def read_item(item_id: int):
     return {"item_id": item_id}
+```
+### Query parameters
 
-Path parameters
-
-I also learned how FastAPI handles path parameters.
-@app.get("/items/{item_id}")
-async def read_item(item_id: int):
-    return {
-        "item_id": item_id,
-        "message": f"You requested item {item_id}"
-    }
 In this example, {item_id} is part of the URL and FastAPI passes its value to the function.
 
 The : int type hint tells FastAPI that the value should be an integer. This also allows FastAPI to validate the input.
-
-Query parameters
 
 I learned that query parameters can be used when information is supplied after the ? in a URL.
 
 For example:
 
+```python
 @app.get("/search/")
 async def search_items(q: str = None, skip: int = 0, limit: int = 10):
     return {
@@ -107,10 +99,11 @@ async def search_items(q: str = None, skip: int = 0, limit: int = 10):
         "skip": skip,
         "limit": limit
     }
+```
 
 A request such as:
 
-/search?q=test&skip=0&limit=10
+`/search?q=test&skip=0&limit=10`
 
 can provide values for the query parameters.
 
@@ -131,12 +124,14 @@ I learned that Pydantic models can be used to define the structure and validatio
 
 For example:
 
+```python
 from pydantic import BaseModel, Field
 
 
 class ItemCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=100)
     price: float = Field(..., gt=0)
+```
 
 This means that an item must have a name and a price, and the price must be greater than zero.
 
@@ -148,6 +143,7 @@ I also learned that FastAPI provides HTTPException for returning appropriate HTT
 
 For example:
 
+```python
 from fastapi import HTTPException
 
 
@@ -156,6 +152,7 @@ if item_id not in fake_items_db:
         status_code=404,
         detail="Item not found"
     )
+```
 
 This allows the API to communicate clearly when something goes wrong.
 
